@@ -29,4 +29,46 @@ a1 = str;
 myBoolean = a1;
 str = "12";
 console.log(comparator(str as any,12));
+let a10;
+a10 = 100;
+a10 = "100";
+/********************************************************* */
+//Using interface
+// interface Person {
+//     id: number;
+//     name: string;
+//    getName?: ()=>string
+// }
+// let person1: Person = {id: 123,name: "Moshe",getName() {return this.name}};
+// let id = "tttt";
+// person1[id] = 123;
+// console.log((person1 as any)[id]);
+// interface Employee extends Person {
+//     salary: number;
+// }
+// let empl: Employee = {id: 123, name: "Nik", salary:5000};
+// interface Employee {
+//     company?:string;
+// }
+/***************************************************************** */
+//Using Type
+type Person = {
+    id: number;
+    name: string;
+   getName?: ()=>string
+}
+let person1: Person = {id: 123,name: "Moshe",getName() {return this.name}};
+let id = "tttt";
+person1[id] = 123;
+console.log((person1 as any)[id]);
+type Employee = Person &{
+    salary: number;
+}
+let empl: Employee = {id: 123, name: "Nik", salary:5000};
+type EmployeeCompany = Employee & {
+    company:string;
+}
+
+
+
 
