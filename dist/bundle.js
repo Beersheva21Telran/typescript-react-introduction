@@ -29822,13 +29822,61 @@ if (false) {} else {
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+var clock_1 = __webpack_require__(/*! ./clock */ "./src/clock.js");
 var colors_1 = __webpack_require__(/*! ./colors */ "./src/colors.js");
+var inputData_1 = __webpack_require__(/*! ./inputData */ "./src/inputData.js");
 var App = function () {
-    return React.createElement(colors_1.default, { colors: [
-            "red", "green", "black", "brown", "blue"
-        ] });
+    var style = { display: "flex", flexDirection: "column" };
+    var _a = React.useState([
+        "red", "green", "black", "brown", "blue"
+    ]), colors = _a[0], setColors = _a[1];
+    var _b = React.useState("Asia/Jerusalem"), timeZone = _b[0], setTimeZone = _b[1];
+    function injectColors(colorsAr) {
+        setColors(colorsAr);
+    }
+    function injectTimeZone(timeZoneStr) {
+        setTimeZone(timeZoneStr);
+    }
+    return React.createElement("div", { style: style },
+        React.createElement(inputData_1.default, { colorsFn: injectColors, timeZoneFn: injectTimeZone }),
+        React.createElement(colors_1.default, { colors: colors }),
+        React.createElement(clock_1.default, { timeZone: timeZone }));
 };
 exports["default"] = App;
+
+
+/***/ }),
+
+/***/ "./src/clock.js":
+/*!**********************!*\
+  !*** ./src/clock.js ***!
+  \**********************/
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+var react_1 = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+var Clock = function (props) {
+    var _a = (0, react_1.useState)(new Date()), date = _a[0], setDate = _a[1];
+    var timeZone = props.timeZone;
+    function tic() {
+        console.log("tic");
+        setDate(new Date());
+    }
+    React.useEffect(function () {
+        console.log("kuku");
+        var interval = setInterval(tic, 1000);
+        return function () { return clearInterval(interval); };
+    }, []);
+    return React.createElement("div", null,
+        React.createElement("h2", null,
+            "Date ",
+            timeZone,
+            " time-zone"),
+        React.createElement("h3", null, date.toLocaleString("ru", { timeZone: timeZone })));
+};
+exports["default"] = Clock;
 
 
 /***/ }),
@@ -29848,6 +29896,42 @@ var Colors = function (props) {
         React.createElement("ul", null, colors.map(function (r, index) { return React.createElement("li", { key: index, style: { color: r, backgroundColor: "black" } }, r); })));
 };
 exports["default"] = Colors;
+
+
+/***/ }),
+
+/***/ "./src/inputData.js":
+/*!**************************!*\
+  !*** ./src/inputData.js ***!
+  \**************************/
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+var InputData = function (props) {
+    var inputColorsEl;
+    var inputTimeZoneEl;
+    React.useEffect(function () {
+        inputColorsEl = document.getElementById("input-colors");
+        inputTimeZoneEl = document.getElementById("input-time-zone");
+    }, []);
+    function returnColors() {
+        var colorsStr = inputColorsEl.value;
+        props.colorsFn(colorsStr.split(" "));
+    }
+    function returnTimeZone() {
+        props.timeZoneFn(inputTimeZoneEl.value);
+    }
+    return React.createElement("div", null,
+        React.createElement("input", { id: "input-colors", placeholder: "Enter colors separated by space" }),
+        " ",
+        React.createElement("button", { onClick: returnColors }, "GO"),
+        React.createElement("input", { id: "input-time-zone", placeholder: "Enter timeZone" }),
+        " ",
+        React.createElement("button", { onClick: returnTimeZone }, "GO"));
+};
+exports["default"] = InputData;
 
 
 /***/ })
