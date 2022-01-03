@@ -1,22 +1,23 @@
 import * as React from "react"
+import { useState } from "react";
 type InputDataProps = {
     colorsFn: (colors: string[]) => void,
     timeZoneFn: (timeZone: string) => void
 }
 const InputData:React.FC<InputDataProps> = (props) => {
-    let inputColorsEl: any;
-    let inputTimeZoneEl: any;
+    const inputColorsEl = React.useRef<any>();
+    const inputTimeZoneEl = React.useRef<any>();
     React.useEffect(()=>{
-        inputColorsEl = document.getElementById("input-colors");
-        inputTimeZoneEl = document.getElementById("input-time-zone");
+        inputColorsEl.current = document.getElementById("input-colors");
+        inputTimeZoneEl.current = document.getElementById("input-time-zone");
     }, [])
     function returnColors() {
-        const colorsStr:string = inputColorsEl.value;
+        const colorsStr:string = inputColorsEl.current.value;
         props.colorsFn(colorsStr.split(" "));
 
     }
     function returnTimeZone() {
-        props.timeZoneFn(inputTimeZoneEl.value);
+        props.timeZoneFn(inputTimeZoneEl.current.value);
     }
     return <div>
         <input id="input-colors" placeholder="Enter colors separated by space"/> <button onClick={returnColors}>GO</button>

@@ -6,7 +6,7 @@ const Colors: React.FC<ColorsProps> = (props: ColorsProps) => {
     const {colors} = props;
     return <div>
         <ul>
-            {colors.map((r, index) => <li key={index} style={{color:r, backgroundColor: "black"}}>{r}</li>)}
+            {colors.map((r, index) => <li key={index} style={{color:r}}>{r}</li>)}
         </ul>
     </div>
 }

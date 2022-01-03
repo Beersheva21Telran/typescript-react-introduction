@@ -29893,7 +29893,7 @@ var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 var Colors = function (props) {
     var colors = props.colors;
     return React.createElement("div", null,
-        React.createElement("ul", null, colors.map(function (r, index) { return React.createElement("li", { key: index, style: { color: r, backgroundColor: "black" } }, r); })));
+        React.createElement("ul", null, colors.map(function (r, index) { return React.createElement("li", { key: index, style: { color: r } }, r); })));
 };
 exports["default"] = Colors;
 
@@ -29910,18 +29910,18 @@ exports["default"] = Colors;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 var InputData = function (props) {
-    var inputColorsEl;
-    var inputTimeZoneEl;
+    var inputColorsEl = React.useRef();
+    var inputTimeZoneEl = React.useRef();
     React.useEffect(function () {
-        inputColorsEl = document.getElementById("input-colors");
-        inputTimeZoneEl = document.getElementById("input-time-zone");
+        inputColorsEl.current = document.getElementById("input-colors");
+        inputTimeZoneEl.current = document.getElementById("input-time-zone");
     }, []);
     function returnColors() {
-        var colorsStr = inputColorsEl.value;
+        var colorsStr = inputColorsEl.current.value;
         props.colorsFn(colorsStr.split(" "));
     }
     function returnTimeZone() {
-        props.timeZoneFn(inputTimeZoneEl.value);
+        props.timeZoneFn(inputTimeZoneEl.current.value);
     }
     return React.createElement("div", null,
         React.createElement("input", { id: "input-colors", placeholder: "Enter colors separated by space" }),

@@ -2,18 +2,18 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = require("react");
 var InputData = function (props) {
-    var inputColorsEl;
-    var inputTimeZoneEl;
+    var inputColorsEl = React.useRef();
+    var inputTimeZoneEl = React.useRef();
     React.useEffect(function () {
-        inputColorsEl = document.getElementById("input-colors");
-        inputTimeZoneEl = document.getElementById("input-time-zone");
+        inputColorsEl.current = document.getElementById("input-colors");
+        inputTimeZoneEl.current = document.getElementById("input-time-zone");
     }, []);
     function returnColors() {
-        var colorsStr = inputColorsEl.value;
+        var colorsStr = inputColorsEl.current.value;
         props.colorsFn(colorsStr.split(" "));
     }
     function returnTimeZone() {
-        props.timeZoneFn(inputTimeZoneEl.value);
+        props.timeZoneFn(inputTimeZoneEl.current.value);
     }
     return React.createElement("div", null,
         React.createElement("input", { id: "input-colors", placeholder: "Enter colors separated by space" }),
