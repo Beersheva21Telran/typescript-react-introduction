@@ -29831,16 +29831,21 @@ var App = function () {
         "red", "green", "black", "brown", "blue"
     ]), colors = _a[0], setColors = _a[1];
     var _b = React.useState("Asia/Jerusalem"), timeZone = _b[0], setTimeZone = _b[1];
+    var _c = React.useState("buttons"), component = _c[0], setComponent = _c[1];
     function injectColors(colorsAr) {
         setColors(colorsAr);
     }
     function injectTimeZone(timeZoneStr) {
         setTimeZone(timeZoneStr);
     }
+    var componentsMap = new Map([
+        ["input", React.createElement(inputData_1.default, { colorsFn: injectColors, timeZoneFn: injectTimeZone })],
+        ["colors", React.createElement(colors_1.default, { colors: colors })],
+        ["timer", React.createElement(clock_1.default, { timeZone: timeZone })]
+    ]);
     return React.createElement("div", { style: style },
-        React.createElement(inputData_1.default, { colorsFn: injectColors, timeZoneFn: injectTimeZone }),
-        React.createElement(colors_1.default, { colors: colors }),
-        React.createElement(clock_1.default, { timeZone: timeZone }));
+        Array.from(componentsMap.keys()).map(function (k) { return React.createElement("button", { key: k, onClick: function () { return setComponent(k); } }, k); }),
+        componentsMap.get(component));
 };
 exports["default"] = App;
 
@@ -29865,9 +29870,9 @@ var Clock = function (props) {
         setDate(new Date());
     }
     React.useEffect(function () {
-        console.log("kuku");
+        console.log("mounting");
         var interval = setInterval(tic, 1000);
-        return function () { return clearInterval(interval); };
+        return function () { console.log('unmounting'); /*clearInterval(interval);*/ };
     }, []);
     return React.createElement("div", null,
         React.createElement("h2", null,

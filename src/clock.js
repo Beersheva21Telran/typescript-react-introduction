@@ -10,9 +10,9 @@ var Clock = function (props) {
         setDate(new Date());
     }
     React.useEffect(function () {
-        console.log("kuku");
+        console.log("mounting");
         var interval = setInterval(tic, 1000);
-        return function () { return clearInterval(interval); };
+        return function () { console.log('unmounting'); /*clearInterval(interval);*/ };
     }, []);
     return React.createElement("div", null,
         React.createElement("h2", null,
